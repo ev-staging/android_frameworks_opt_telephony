@@ -55,6 +55,7 @@ import android.telephony.euicc.EuiccManager;
 import android.text.TextUtils;
 
 import com.android.internal.annotations.VisibleForTesting;
+import com.android.internal.os.BackgroundThread;
 import com.android.internal.telephony.euicc.EuiccController;
 import com.android.internal.telephony.metrics.TelephonyMetrics;
 import com.android.internal.telephony.uicc.IccRecords;
@@ -138,6 +139,10 @@ public class SubscriptionInfoUpdater extends Handler {
             Looper looper, Context context, Phone[] phone, CommandsInterface[] ci) {
         this(looper, context, phone, ci,
                 IPackageManager.Stub.asInterface(ServiceManager.getService("package")));
+    }
+
+    public SubscriptionInfoUpdater(Context context, Phone[] phone, CommandsInterface[] ci) {
+        this(BackgroundThread.get().getLooper(), context, phone, ci);
     }
 
     @VisibleForTesting public SubscriptionInfoUpdater(
